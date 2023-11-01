@@ -1,3 +1,8 @@
 #!/usr/bin/env ruby
-# A regular expression that is simply matching School
-puts ARGV[0].scan(/School/).join
+
+if ARGV[0]
+  result = ARGV[0].scan(/School/).join
+  puts result
+else
+  puts "No input string provided."
+end
