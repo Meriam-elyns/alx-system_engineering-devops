@@ -21,7 +21,7 @@ file { '/var/www/html/index.html':
 
 # Start and enable Nginx service
 service { 'nginx':
-  ensure => running,
-  enable => true,
+  ensure  => running,
+  enable  => true,
   require => Package['nginx'],
 }
