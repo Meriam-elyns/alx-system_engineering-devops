@@ -1,17 +1,27 @@
-# automating my work using Puppet
-package { 'ngnix':
-ensure => installed,
+# Automating Nginx Configuration with Puppet
+
+# Install Nginx package
+package { 'nginx':
+  ensure => installed,
 }
-file_line { 'install':
-ensure => 'present',
-path => '/ect/nginx/sites-enabled/default',
-after => 'listen 80 default_server;',
-line => 'newrite ^/redirect_me https://www.github.com/Meriam-elyns permanent; ',
+
+# Configure Nginx
+file_line { 'redirect_config':
+  ensure => present,
+  path   => '/etc/nginx/sites-enabled/default',
+  after  => 'listen 80 default_server;',
+  line   => 'return 301 /redirect_me https://www.github.com/Meriam-elyns permanent;',
+  notify => Service['nginx'],
 }
+
+# Create index.html with "Hello World!"
 file { '/var/www/html/index.html':
-content =>'Hello World!',
+  content => 'Hello World!',
 }
+
+# Start and enable Nginx service
 service { 'nginx':
-ensure => running,
-require => package['nginx'],
+  ensure => running,
+  enable => true,
+  require => Package['nginx'],
 }
